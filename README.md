@@ -1,6 +1,6 @@
 # ctf (capture the flag)
 
-solutions to ctf problems.
+Exploits written to solve ctf problems.
 
 
 ### ground rules
