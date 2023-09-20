@@ -8,7 +8,7 @@ Exploit:
 We first try to find how many characters to fill before the malicious code.
 
 Script to find offset:
-```
+```python
 from pwn import *
 
 io = process("./vuln")
@@ -24,7 +24,7 @@ info("rip offset is %d", rip_offset)
 ```
 
 Full exploit:
-```
+```python
 import sys
 
 from pwn import *
