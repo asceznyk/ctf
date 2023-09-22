@@ -202,7 +202,7 @@ The input to the `doProcess` is the `user` pointer so if we can get control over
 The plan:
 
 1. We hit `S` to get the address of `hahaexploitgobrrr`.
-2. We hit `I` to delete the account. Essentially `free`ing `user`. This will put the `user`s pointer into the `tcache` bin.
+2. We hit `I`, in turn calling the `i` function to delete the account. Essentially `free`ing `user`. This will put the `user`s pointer into the `tcache` bin.
 3. We hit `l` to call the function `leaveMessage`. This function will call `malloc` which will return `tcache`s first entry i.e. the `user`s pointer.
 4. Input the address of `hahaexploitgobrrr`. This will overwrite the contents of `user` pointer with the functions address.
 
