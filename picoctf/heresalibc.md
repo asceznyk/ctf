@@ -1,4 +1,20 @@
 # Writeup - Here's a LIBC
+Category: Binary Exploitation, Points: 100
+
+
+## Descpriton
+
+> I'm one again asking you to pwn this binary
+
+A binary file, a makefile and a LIBC file were attached.
+
+```makefile
+all:
+  gcc -Xlinker -rpath=./ -m64 -fno-stack-protector -no-pie -o vuln vuln.c
+
+clean:
+  rm vuln
+```
 
 
 ## Vulnerability
