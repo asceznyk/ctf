@@ -1,5 +1,6 @@
 # Writeup - Unsubscriptions are free
 
+
 ### Vulnerability
 
 Given the source code:
@@ -170,6 +171,7 @@ Now there is a function called `hahaexploitgobrrr` which `puts` the `flag` into 
 Notice, when the letter `S` is hit we get the output `OOP! Memory leak...0x80487d6`, The address of the function `hahaexploitgobrrr`.
 
 Notice that `doProcess` essentially calls a function. Like so
+
 ```c
 void doProcess(cmd* obj) {
   (*obj->whatToDo)(); // * dereferences the obj->whatToDo function's address
@@ -177,6 +179,7 @@ void doProcess(cmd* obj) {
 ```
 
 We want `doProcess` to call `hahaexploitgobrrr` with its address.
+
 ```c
 //what we want the code to do..
 void doProcess(cmd* obj) {
@@ -184,14 +187,25 @@ void doProcess(cmd* obj) {
 }
 ```
 
-How do we do that? The input to the `doProcess` is `user` so if we can get control over the `user` object we can overwrite what's in it to make the call.
+How do we do that? 
+
+The input to the `doProcess` is `user` so if we can get control over the `user` object we can overwrite what's in it to make the call.
+
+
+### Exploit
 
 How do we do that? 
-We can first `free` the user. Then the consequent `malloc` will get the first `free`d chunk. To execute the consequent `malloc` we press `l` to call `leaveMessage`. Then fill the chunk with `0x80487d6` so that `doProcess` calls it.
+
+1. We hit `S` to get the address of `hahaexploitgobrrr`.
+2. We hit `I` to delete the account. Essentially `free`ing `user`. This will put the pointer to `user` into the `tcache` bin.
+3. We hit `l` to call the function `leaveMessage` and then input the address of `hahaexploitgobrrr` into it. 
+
+
 
 When we `free` something, the `free`d chunk of memory moves into the `tcache`.
 
 The exploit:
+
 ```python
 import sys
 
@@ -252,6 +266,7 @@ log.success(io.recvlineS())
 exit()
 ```
 
-The flag:
+
+### Flag
 `picoCTF{d0ubl3_j30p4rdy_4245f637}`
 
