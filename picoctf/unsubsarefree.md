@@ -1,7 +1,7 @@
 # Writeup - Unsubscriptions are free
 
 
-### Vulnerability
+## Vulnerability
 
 Given the source code:
 ```c
@@ -192,7 +192,7 @@ How do we do that?
 The input to the `doProcess` is `user` so if we can get control over the `user` object we can overwrite what's in it to make the call.
 
 
-### Exploit
+## Exploit
 
 How do we do that? 
 
@@ -267,6 +267,6 @@ exit()
 ```
 
 
-### Flag
+## Flag
 `picoCTF{d0ubl3_j30p4rdy_4245f637}`
 
