@@ -1,4 +1,4 @@
-# ctf (capture the flag)
+# playbook
 
 CTF Writeups.
 
