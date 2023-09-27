@@ -430,7 +430,7 @@ Fastbins[idx=6, size=0x40] 0x00
 [+] Found 0 chunks in 0 large non-empty bins.
 ```
 
-Now we can see that there is a memory chunk in `tcache` with the address `0x804c1a0`. Whichi is the `user` address.
+Now we can see that there is a memory chunk in `tcache` with the address `0x804c1a0`. Which is the `user` address.
 
 Plan:
 
