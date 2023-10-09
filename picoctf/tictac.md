@@ -95,7 +95,7 @@ Race Conditions happen when two or more operations are running in parallel.
 
 There is a Race Condition in the `src.cpp` file, caused by 2 instances. Firstly, it checks the ownership of the file. Secondly, it reads the file. We want to swap the file between when it checks ownership and when it reads.
 
-```console
+```
 check_ownership(file) -- file is a dummy file owned by us
 
 swap the file -- from the dummy file to flag.txt
