@@ -129,7 +129,7 @@ We should get the flag.
 
 ## References
 
-[Link 1](https://brandon-t-elliott.github.io/tic-tac)
+[Link 1](https://brandon-t-elliott.github.io/tic-tac)  
 [Link 2](https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use)
 
 
