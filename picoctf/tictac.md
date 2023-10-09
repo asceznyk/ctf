@@ -16,7 +16,7 @@ After `ssh`ing into the VM.
 We can `ls` the current directory.
 
 ```console
->ls
+$ ls
 flag.txt  src.cpp  txtreader
 ```
 
