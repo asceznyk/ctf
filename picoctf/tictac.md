@@ -72,7 +72,7 @@ Now, the program is quite simple. It reads a file into the `file` pointer, and c
 If you run:
 
 ```console
->./txtreader src.cpp
+$ ./txtreader src.cpp
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
