@@ -118,7 +118,7 @@ $ timeout 30s bash -c 'while true; do ln -sf random.txt flag; ln -sf flag.txt fl
 
 The `timeout` command times-out after 30 seconds.
 
-We then try to run `txtreader` multiple times so that we swap the file at the right time.
+We then run `txtreader` multiple times so that we swap the file at the right time.
 
 ```console
 $ while ! ./txtreader flag 2> /dev/null | grep "picoCTF"; do :; done
