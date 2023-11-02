@@ -116,7 +116,7 @@ eax -> 00000000 00000000 00000000 00000104
 ## So, if can move the value towards the MSB we would have a 2-byte instruction.
 ```
 
-To make a 2 byte instruction in `eax` we should keep multiplying `eax` into `16*16`. Since the binary for `256` is `100000000`, this would shift the value in `eax` by 8 bits. Which would inturn to this.
+To make a 2 byte instruction in `eax` we should keep multiplying `eax` into `16*16`. Since the binary for `256` is `100000000`, this would shift the value in `eax` by 8 bits. Which would inturn do this.
 
 ```console
 eax -> 00000000 00000000 00000104 00000000
