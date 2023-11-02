@@ -1,4 +1,4 @@
-# Writeup - Unsubscriptions are free
+# Writeup - filtered-shellcode
 Category: Binary Exploitation, Points: 160
 
 
