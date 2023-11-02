@@ -79,8 +79,8 @@ The basic plan:
 
 1. Push `//bin/sh` on to the stack, so that `esp` points to it.
 2. Put `//bin/sh` into the `ebx` register and assign `ecx` and `edx` to `0`.
-3. `mov al, 11` to `eax`. `11` is the 32-bit syscall for `execve`.
-4. `int 0x80` to call `execve` which would have `ebx` as the first argument.
+3. `mov al, 11`. `11` is the 32-bit syscall for `execve`. This moves `execve` to `eax`.
+4. `int 0x80` to call `execve` which would have `ebx` as its first argument.
 
 ```assembly
 ; Push //bin/sh on stack (one more slash to avoid null byte)
