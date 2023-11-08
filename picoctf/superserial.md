@@ -262,13 +262,13 @@ That raises 2 questions.
 
 In `cookie.phps` we saw that if there is an error it prints the object contents. If we were to cause an error in `cookie.phps`, we could make a call to `.__toString`.
 
-So if we were to pass `access_log("../flag")` as the `login` cookie and send it to `authentication.phps`. We would cause an error in `cookie.phps` which would inturn make a call to `access_log("../flag").__toString()` printing the contents of `../flag`. 
+So if we were to pass a `serialize`d `access_log("../flag")` as the `login` cookie and send it to `authentication.phps`. We would cause an error in `cookie.phps` which would inturn make a call to `access_log("../flag").__toString()` printing the contents of `../flag`. 
 
-Hence, we would have to set the `login` cookie to a fake `access_log("../flag")` object.
+Hence, we would have to set the `login` cookie to a `serailized` fake `access_log("../flag")` object.
 
 The plan:
 
-1. Create a fake object string with `serialize(access_log("../flag"))`. Use this online php [compiler](http://sandbox.onlinephpfunctions.com) 
+1. Create a fake object string with `serialize(new access_log("../flag"))`. Use this online php [compiler](http://sandbox.onlinephpfunctions.com) 
 2. Encode it with base64.
 3. Pass the encoded string as `login` cookie to `authentication.php`. You can do this with `curl` or the `devtools` from your browser.
 
