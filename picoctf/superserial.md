@@ -159,14 +159,14 @@ Now in this part.
 ```php
 <?php
 if(isset($_COOKIE["login"])){
-	try{
-		$perm = unserialize(base64_decode(urldecode($_COOKIE["login"])));
-		$g = $perm->is_guest();
-		$a = $perm->is_admin();
-	}
-	catch(Error $e){
-		die("Deserialization error. ".$perm); // this line would call $perm.__toString()!
-	}
+  try{
+    $perm = unserialize(base64_decode(urldecode($_COOKIE["login"])));
+    $g = $perm->is_guest();
+    $a = $perm->is_admin();
+  }
+  catch(Error $e){
+    die("Deserialization error. ".$perm);
+  }
 }
 ?>
 ```
