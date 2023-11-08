@@ -165,7 +165,7 @@ if(isset($_COOKIE["login"])){
 		$a = $perm->is_admin();
 	}
 	catch(Error $e){
-		die("Deserialization error. ".$perm);
+		die("Deserialization error. ".$perm); // this line would call $perm.__toString()!
 	}
 }
 ?>
