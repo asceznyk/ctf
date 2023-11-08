@@ -173,7 +173,7 @@ if(isset($_COOKIE["login"])){
 
 It unserializes the cookie into a php object. And if the object dosen't have an `is_admin` or an `is_guest` method. We print the object contents.
 
-Printing the object contents means calling the `.__toString` method of an object. Whatever the `.__toString` method returns is what get's printed onto the screen.
+Printing the object contents means calling the `.__toString` method of an object. Whatever the `.__toString` method returns is what gets printed onto the screen.
 
 Now let's look at the second file.
 
