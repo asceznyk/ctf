@@ -78,7 +78,7 @@ To know more about 32-bit calling conventions. Visit this [page](https://chromiu
 The basic plan:
 
 1. Push `//bin/sh` on to the stack, so that `esp` points to it.
-2. Put `//bin/sh` into the `ebx` register and assign `ecx` and `edx` to `0`.
+2. `mov ebx, esp` register and assign `ecx` and `edx` to `0`. This would move `//bin/sh` to `ebx`.
 3. `mov al, 11`. `11` is the 32-bit syscall for `execve`. This moves `execve` to `eax`.
 4. `int 0x80` to call `execve` which would have `ebx` as its first argument.
 
