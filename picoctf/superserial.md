@@ -299,4 +299,4 @@ You should get the flag.
 
 
 ## References
-[this awesome tutorial](https://github.com/ZeroDayTea/PicoCTF-2021-Killer-Queen-Writeups/blob/main/WebExploitation/SuperSerial.md)
+[Link](https://github.com/ZeroDayTea/PicoCTF-2021-Killer-Queen-Writeups/blob/main/WebExploitation/SuperSerial.md)
