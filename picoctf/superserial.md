@@ -3,6 +3,7 @@ Category: Web Exploitation, Points: 130
 
 
 ## Descpriton
+
 > Try to recover the flag stored on this website [link](http://mercury.picoctf.net:2148/)
 
 A big hint: the flag is at ../flag
