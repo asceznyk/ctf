@@ -1,8 +1,7 @@
 .global _start
-.intel_syntax
-
+.intel_syntax noprefix
 .section .text
 
 _start:
-    mov %al, %dil
-    mov %bx, %si
+    mov al, dil
+    mov bx, si

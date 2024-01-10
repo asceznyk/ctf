@@ -1,12 +1,11 @@
 .global _start
-.intel_syntax
-
+.intel_syntax noprefix
 .section .text
 
 _start:
-    push %rsi
-    push %rdi
-    pop %rsi
-    pop %rdi
+    push rsi
+    push rdi
+    pop rsi
+    pop rdi
 
 

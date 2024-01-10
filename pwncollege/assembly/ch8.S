@@ -1,9 +1,8 @@
 .global _start
-.intel_syntax
-
+.intel_syntax noprefix
 .section .text
 
 _start:
-    and %rdi, %rsi
-    xor %rax, %rax
-    add %rax, %rdi
+    and rdi, rsi
+    xor rax, rax
+    add rax, rdi
