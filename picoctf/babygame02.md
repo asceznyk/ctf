@@ -148,9 +148,9 @@ gef➤
 
 We now know the address of `win`.
 
-We need to know *where* to write the `win` functions address. For that, first we need the address of `map`.
+We need to know *where* to write the `win` functions address. 
 
-For that, we need to see what happens with the registers when `l` is pressed. Why? Because that is when `move_player` is called. Which means that there is a `return` instruction to `main` at some address. If we overwrite this address to `win`. *We will be running instrucions from `win` onwards*. Which will print the flag. 
+For that, we need to know the address of `map` and we need to see what happens with the registers when `l` is pressed. Why? Because that is when `move_player` is called. Which means that there is a `return` instruction to `main` at some address. If we overwrite this address to `win`. *We will be running instrucions from `win` onwards*. Which will print the flag. 
 
 We set a breakpoint to when `l` is pressed: 
 ```console
