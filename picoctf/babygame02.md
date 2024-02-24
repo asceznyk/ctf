@@ -101,7 +101,7 @@ Notice that neither the `move_player` function nor the `main` function do any so
 
 The vulnerability is in the fact that we can go *outside* the map. Which means we can overwrite stuff on the stack. Also the `move_player` function allows us to write a byte with `l`. So this means we can overwrite exactly a byte on to the stack.
 
-The idea is to change a byte in an address on the stack, so that we can call the `win` fucntion. Programatically something like this `stack[address] = win function's address`. Where `stack[address] idiomatically represents the value of stack in address`.
+The idea is to change a byte in an address on the stack, so that we can call the `win` fucntion. Programatically something like this `stack[address] = win function's address`. Where `stack[address]` idiomatically represents the value of stack in address.
 
 For that, we need to know. The address of `win`. And the address of `map`. Why `map`? Because the start of the `map` is the offset point for writing to the stack.
 
@@ -150,7 +150,9 @@ We now know the address of `win`.
 
 We need to know *where* to write the `win` functions address. For that, first we need the address of `map`.
 
-For that, we need to see what happens with the registers when `l` is pressed. Why? Because `l` changes a byte on the `map` which means we will have registers pointing to the `map`. If we know that we will also get the address of `map`.
+For that, we need to see what happens with the registers when `l` is pressed. Why? Because that is when `move_player` is called. Which means that there is a `return` instruction to `main` at some address. If we overwrite this address to `win`. *We will be running instrucions from `win` onwards*. Which will print the flag. 
+
+We set a breakpoint to when `l` is pressed: 
 ```console
 Breakpoint 1, 0x0804953f in move_player ()
 
@@ -193,13 +195,17 @@ $cs: 0x23 $ss: 0x2b $ds: 0x2b $es: 0x2b $fs: 0x00 $gs: 0x63
 [#1] 0x8049709 → main()
 ```
 
-Here `ebx` is pointing to `0xffffc413` - the address of `map`. If you look at the `stack` closesly. You will notice `<main+149> add esp, 0x10` on the address `0x08049709`. This is a return instruction in address `0xffffc3ec`. This is on the stack.
+Here `ebx` is pointing to `0xffffc413` - the address of `map`.
 
-Let's compare `win`s address `0x0804975d`. And `main`s return address `0x08049709`. There is exactly a byte's difference. Thus if we overwrite on `0xffffc3ec` the address `0x0804975d`. **We will have called the win function!**
+Now *where* in the stack do we overwrite?
 
-How do we write on `0xffffc3ec`? Well we know the address of `map`. Which is what `ebx` is pointing to. To get the offset from the start of `map`, we need to `0xffffc413 - 0xffffc3ec`. Which gives us `0x27` or `39` in decimal.
+If you notice the `stack` section the value address `0xffffc3ec` is `0x08049709`. The return address to `main`. This we where we overwrite.
 
-So if we move `39` bytes to the left from the start of `map`. We should we able to overwrite on `0xffffc3ec`. Programatically `map[-39] = 0x5d`. `0x5d` because thats the byte difference between `win` and the return address.
+Let's compare `win`s address `0x0804975d`. And `main`s return address `0x08049709`. There is exactly a byte's difference. If we change `09` to `5d` we `win`.
+
+How do we write on `0xffffc3ec`? Well we know the address of `map`. Which is what `ebx` is pointing to. To get the offset from the start of `map`, we need to `p/d 0xffffc413-0xffffc3ec`. Which gives us `39` in decimal.
+
+So if we move `39` bytes to the left from the start of `map`. We should we able to overwrite on `0xffffc3ec`. Programatically `map[-39] = 0x5d`. 
 
 
 ## Exploit
