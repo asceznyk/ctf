@@ -1,4 +1,4 @@
-# Writeup - basic-file-exploit
+# Writeup - Stonks
 Category: Binary Exploitation, Points: 100
 
 
